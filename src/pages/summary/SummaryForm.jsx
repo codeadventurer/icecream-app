@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
 
 export default function SummaryForm() {
   const [disabled, setDisabled] = useState(true);
@@ -7,20 +8,25 @@ export default function SummaryForm() {
     setDisabled(!disabled);
   };
 
+  const checkboxLabel = (
+    <span>
+      I agree to <span style={{ color: 'blue' }}>Terms and Conditions</span>
+    </span>
+  );
+
   return (
-    <div>
-      <button disabled={disabled}>Confirm order</button>
-      <div>
-        <input
+    <Form>
+      <Form.Group controlId="terms-and-conditions">
+        <Form.Check
           type="checkbox"
-          id="enable-submit-checkbox"
-          defaultChecked={!disabled}
+          checked={!disabled}
           onChange={toggleDisabled}
+          label={checkboxLabel}
         />
-        <label htmlFor="enable-submit-checkbox">
-          I agree to Terms and Conditions
-        </label>
-      </div>
-    </div>
+      </Form.Group>
+      <Button variant="primary" type="submit" disabled={disabled}>
+        Confirm order
+      </Button>
+    </Form>
   );
 }

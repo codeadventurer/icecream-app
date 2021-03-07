@@ -7,9 +7,9 @@ describe('Subtotals', () => {
   test('update scoop subtotal when scoops change', async () => {
     render(<Options optionType="scoops" />)
 
-    // make sure subtotal starts at 0.00$
+    // make sure subtotal starts at 0.00 €
 
-    const scoopsSubtotal = screen.getByText('Scoops total: $', { exact: false })
+    const scoopsSubtotal = screen.getByText('Scoops total:', { exact: false })
     expect(scoopsSubtotal).toHaveTextContent('0.00')
 
     // update vanilla scoop to one and check subtotal
@@ -34,8 +34,8 @@ describe('Subtotals', () => {
   test('update topping subtotal when toppings change', async () => {
     render(<Options optionType="toppings" />)
 
-    // make sure subtotal starts at 0.00$
-    const toppingsSubtotal = screen.getByText('Toppings total: $', {
+    // make sure subtotal starts at 0.00 €
+    const toppingsSubtotal = screen.getByText('Toppings total:', {
       exact: false,
     })
     expect(toppingsSubtotal).toHaveTextContent('0.00')
@@ -68,9 +68,9 @@ describe('Subtotals', () => {
 describe('Grand total', () => {
   test('grand total updates properly if scoop option is added first', async () => {
     render(<OrderEntry />)
-    const grandTotal = screen.getByRole('heading', { name: /Grand total: \$/i })
+    const grandTotal = screen.getByRole('heading', { name: /Grand total:/i })
 
-    // grand total starts at $0.00'
+    // grand total starts at 0.00 €'
     expect(grandTotal).toHaveTextContent('0.00')
 
     const vanillaInput = await screen.findByRole('spinbutton', {
@@ -90,7 +90,7 @@ describe('Grand total', () => {
 
   test('grand total updates properly if topping option is added first', async () => {
     render(<OrderEntry />)
-    const grandTotal = screen.getByRole('heading', { name: /Grand total: \$/i })
+    const grandTotal = screen.getByRole('heading', { name: /Grand total:/i })
 
     const cherriesCheckbox = await screen.findByRole('checkbox', {
       name: 'Cherries',
@@ -114,7 +114,7 @@ describe('Grand total', () => {
 
   test('grand total updates properly if an item is removed', async () => {
     render(<OrderEntry />)
-    const grandTotal = screen.getByRole('heading', { name: /Grand total: \$/i })
+    const grandTotal = screen.getByRole('heading', { name: /Grand total:/i })
 
     const cherriesCheckbox = await screen.findByRole('checkbox', {
       name: 'Cherries',

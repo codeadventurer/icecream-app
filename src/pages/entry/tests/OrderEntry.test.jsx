@@ -1,8 +1,12 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { rest } from 'msw';
-import { server } from '../../../mocks/server';
+import {
+  render,
+  screen,
+  waitFor,
+} from '../../../test-utils/testing-library-utils'
+import { rest } from 'msw'
+import { server } from '../../../mocks/server'
 
-import OrderEntry from '../OrderEntry';
+import OrderEntry from '../OrderEntry'
 
 test('handles errors for scoops and toppings routes', async () => {
   server.resetHandlers(
@@ -12,12 +16,12 @@ test('handles errors for scoops and toppings routes', async () => {
     rest.get('http://localhost:3030/toppings', (req, res, ctx) =>
       res.status(500)
     )
-  );
+  )
 
-  render(<OrderEntry />);
+  render(<OrderEntry />)
 
   await waitFor(async () => {
-    const alerts = await screen.findAllByRole('alert');
-    expect(alerts).toHaveLength(2);
-  });
-});
+    const alerts = await screen.findAllByRole('alert')
+    expect(alerts).toHaveLength(2)
+  })
+})

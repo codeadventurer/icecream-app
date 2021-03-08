@@ -59,9 +59,17 @@ function OrderDetailsProvider(props) {
 
       setOptionCounts(newOptionCounts)
     }
+
+    function resetTotals() {
+      setTotals({
+        scoops: zeroCurrency,
+        toppings: zeroCurrency,
+        grandTotal: zeroCurrency,
+      })
+    }
     // getter: object containing option counts for scoops and toppings, subtotals and totals
     // setter: updateOptionCount
-    return [{ ...optionCounts, totals }, updateItemCount]
+    return [{ ...optionCounts, totals }, updateItemCount, resetTotals]
   }, [optionCounts, totals])
   return <OrderDetails.Provider value={value} {...props} />
 }

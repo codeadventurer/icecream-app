@@ -1,18 +1,26 @@
-import { useState } from 'react';
-import { Form, Button, Popover, OverlayTrigger } from 'react-bootstrap';
+import { useState } from 'react'
+import axios from 'axios'
+import { Form, Button, Popover, OverlayTrigger } from 'react-bootstrap'
 
-export default function SummaryForm() {
-  const [disabled, setDisabled] = useState(true);
+export default function SummaryForm({ onPhaseChange, onOrderNumberFetch }) {
+  const [disabled, setDisabled] = useState(true)
 
   const toggleDisabled = () => {
-    setDisabled(!disabled);
-  };
+    setDisabled(!disabled)
+  }
+
+  const handleSubmit = () => {
+    axios
+      .post('http://localhost:3030/order')
+      .then((response) => onOrderNumberFetch(response.data.orderNumber))
+      .then(onPhaseChange('confirmation'))
+  }
 
   const popover = (
     <Popover id="popover-basic">
       <Popover.Content>No icecream will actually be delivered</Popover.Content>
     </Popover>
-  );
+  )
 
   const checkboxLabel = (
     <span>
@@ -25,7 +33,7 @@ export default function SummaryForm() {
         <span style={{ color: 'blue' }}>Terms and Conditions</span>
       </OverlayTrigger>
     </span>
-  );
+  )
 
   return (
     <Form>
@@ -37,9 +45,14 @@ export default function SummaryForm() {
           label={checkboxLabel}
         />
       </Form.Group>
-      <Button variant="primary" type="submit" disabled={disabled}>
+      <Button
+        variant="primary"
+        type="submit"
+        disabled={disabled}
+        onClick={handleSubmit}
+      >
         Confirm order
       </Button>
     </Form>
-  );
+  )
 }

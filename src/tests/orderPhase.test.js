@@ -15,21 +15,10 @@ test('order phases for happy path', async () => {
   userEvent.clear(vanillaInput)
   userEvent.type(vanillaInput, '3')
 
-  const scoopsSubtotal = screen.getByText('Scoops total:', { exact: false })
-  expect(scoopsSubtotal).toHaveTextContent('6.00')
-
   const cherriesCheckbox = await screen.findByRole('checkbox', {
     name: 'Cherries',
   })
   userEvent.click(cherriesCheckbox)
-
-  const toppingsSubtotal = screen.getByText('Toppings total:', {
-    exact: false,
-  })
-  expect(toppingsSubtotal).toHaveTextContent('1.50')
-
-  const grandTotal = screen.getByRole('heading', { name: /Grand total:/i })
-  expect(grandTotal).toHaveTextContent('7.50')
 
   //find and click the order button
 
@@ -44,18 +33,23 @@ test('order phases for happy path', async () => {
   })
   expect(orderSummaryHeading).toBeInTheDocument()
 
-  const scoopsSummaryHeading = screen.getByRole('heading', { name: /Scoops:/ })
-  expect(scoopsSummaryHeading).toHaveTextContent('6.00')
+  const scoopsSummaryHeading = screen.getByRole('heading', {
+    name: /Scoops: €6.00/i,
+  })
+  expect(scoopsSummaryHeading).toBeInTheDocument()
 
   const toppingsSummaryHeading = screen.getByRole('heading', {
-    name: /Toppings:/,
+    name: /Toppings: €1.50/i,
   })
-  expect(toppingsSummaryHeading).toHaveTextContent('1.50')
+  expect(toppingsSummaryHeading).toBeInTheDocument()
 
   const totalSummaryHeading = screen.getByRole('heading', {
-    name: /Total:/,
+    name: /Total: €7.50/,
   })
-  expect(totalSummaryHeading).toHaveTextContent('7.50')
+  expect(totalSummaryHeading).toBeInTheDocument()
+
+  expect(screen.getByText('3 Vanilla')).toBeInTheDocument()
+  expect(screen.getByText('Cherries')).toBeInTheDocument()
 
   //accept term and conditions and click the button to confirm the order
 
@@ -76,6 +70,11 @@ test('order phases for happy path', async () => {
 
   expect(confirmButton).not.toBeInTheDocument()
 
+  const thanYouHeader = await screen.findByRole('heading', {
+    name: /Thank you/i,
+  })
+  expect(thanYouHeader).toBeInTheDocument()
+
   const orderNumberText = await screen.findByText('Your order number is', {
     exact: false,
   })
@@ -91,7 +90,17 @@ test('order phases for happy path', async () => {
   //check that scoops and toppings total have been reset
   expect(newOrderButton).not.toBeInTheDocument()
 
+  const scoopsSubtotal = screen.getByText('Scoops total:', { exact: false })
   expect(scoopsSubtotal).toHaveTextContent('0.00')
+
+  const toppingsSubtotal = screen.getByText('Toppings total:', {
+    exact: false,
+  })
   expect(toppingsSubtotal).toHaveTextContent('0.00')
+
+  const grandTotal = screen.getByRole('heading', { name: /Grand total:/i })
   expect(grandTotal).toHaveTextContent('0.00')
+
+  await screen.findByRole('spinbutton', { name: 'Vanilla' })
+  await screen.findByRole('checkbox', { name: 'Cherries' })
 })

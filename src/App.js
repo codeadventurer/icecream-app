@@ -14,24 +14,16 @@ const phases = {
 
 function App() {
   const [orderPhase, setOrderPhase] = useState('entry')
-  const [orderNumber, setOrderNumber] = useState(null)
 
   const handlePhaseChange = (phase) => setOrderPhase(phase)
-  const handleOrderNumberFetch = (number) => setOrderNumber(number)
 
   const PhaseComponent = phases[orderPhase]
 
   return (
     <Container>
       <OrderDetailsProvider>
-        {/* Summary page and entry page need provider */}
-        <PhaseComponent
-          onPhaseChange={handlePhaseChange}
-          onOrderNumberFetch={handleOrderNumberFetch}
-          orderNumber={orderNumber}
-        />
+        <PhaseComponent onPhaseChange={handlePhaseChange} />
       </OrderDetailsProvider>
-      {/* Confirmation page does not need a provider */}
     </Container>
   )
 }

@@ -1,19 +1,11 @@
 import { useState } from 'react'
-import axios from 'axios'
 import { Form, Button, Popover, OverlayTrigger } from 'react-bootstrap'
 
-export default function SummaryForm({ onPhaseChange, onOrderNumberFetch }) {
+export default function SummaryForm({ onPhaseChange }) {
   const [disabled, setDisabled] = useState(true)
 
   const toggleDisabled = () => {
     setDisabled(!disabled)
-  }
-
-  const handleSubmit = () => {
-    axios
-      .post('http://localhost:3030/order')
-      .then((response) => onOrderNumberFetch(response.data.orderNumber))
-      .then(onPhaseChange('confirmation'))
   }
 
   const popover = (
@@ -47,9 +39,8 @@ export default function SummaryForm({ onPhaseChange, onOrderNumberFetch }) {
       </Form.Group>
       <Button
         variant="primary"
-        type="submit"
         disabled={disabled}
-        onClick={handleSubmit}
+        onClick={() => onPhaseChange('confirmation')}
       >
         Confirm order
       </Button>

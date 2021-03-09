@@ -19,8 +19,12 @@ export default function OrderSummary({ onPhaseChange }) {
       <h1>Order Summary</h1>
       <h2>Scoops: {orderDetails.totals.scoops}</h2>
       <ul>{scoopList}</ul>
-      <h2>Toppings: {orderDetails.totals.toppings}</h2>
-      <ul>{toppingsList}</ul>
+      {orderDetails.toppings.size > 0 && (
+        <>
+          <h2>Toppings: {orderDetails.totals.toppings}</h2>
+          <ul>{toppingsList}</ul>
+        </>
+      )}
       <h2>Total: {orderDetails.totals.grandTotal}</h2>
       <SummaryForm onPhaseChange={onPhaseChange} />
     </div>

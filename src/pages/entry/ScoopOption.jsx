@@ -2,7 +2,7 @@ import { Col, Form, Row } from 'react-bootstrap'
 
 export default function ScoopOption({ name, imagePath, updateItemCount }) {
   const handleChange = (event) => {
-    updateItemCount(name, event.target.value)
+    updateItemCount(name, event.target.value || 0)
   }
 
   return (

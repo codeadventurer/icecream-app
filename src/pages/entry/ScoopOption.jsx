@@ -1,7 +1,17 @@
+import { useState } from 'react'
 import { Col, Form, Row } from 'react-bootstrap'
 
 export default function ScoopOption({ name, imagePath, updateItemCount }) {
+  const [isInvalid, setIsInvalid] = useState(false)
   const handleChange = (event) => {
+    const currentValueFloat = parseFloat(event.target.value)
+    const valid =
+      event.target.value === '' ||
+      (currentValueFloat >= 0 &&
+        currentValueFloat < 10 &&
+        Math.floor(currentValueFloat) === currentValueFloat)
+
+    setIsInvalid(!valid)
     updateItemCount(name, event.target.value || 0)
   }
 
@@ -23,9 +33,9 @@ export default function ScoopOption({ name, imagePath, updateItemCount }) {
         <Col xs="5" style={{ textAlign: 'left' }}>
           <Form.Control
             type="number"
-            //defaultValue={0}
             name={name}
             onChange={handleChange}
+            isInvalid={isInvalid}
           />
         </Col>
       </Form.Group>
